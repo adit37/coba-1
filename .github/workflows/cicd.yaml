@@ -7,7 +7,7 @@ on:
 
 env:
   GCP_PROJECT: alpine-keep-440111-r4
-  IMAGE_NAME: cicd2
+  IMAGE_NAME: cicd3
 
 jobs:
   build:
