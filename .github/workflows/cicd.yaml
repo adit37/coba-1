@@ -8,7 +8,7 @@ on:
 env:
   GCP_PROJECT: alpine-keep-440111-r4
   IMAGE_NAME: cicd2
-  CLOUD_RUN_SERVICE: cicd-coba1
+  CLOUD_RUN_SERVICE: cicd1
   CLOUD_RUN_REGION: asia-southeast2
 
 jobs:
