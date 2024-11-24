@@ -16,7 +16,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0.2.0
         with: 
             project_id: ${{ secrets.PROJECT_ID }}
-            service_account_key: ${{ secrets.cicdgcr1 }}
+            service_account_key: ${{ secrets.GCP_KEY_COBA }}
 
 
       # - name: Create .env file
@@ -43,13 +43,13 @@ jobs:
         with:
           registry: gcr.io
           username: _json_key
-          password: ${{ secrets.cicdgcr1 }}
+          password: ${{ secrets.GCP_KEY_COBA }}
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{ secrets.PROJECT_ID }}
-          service_account_key: ${{ secrets.cicdgcr1 }}
+          service_account_key: ${{ secrets.GCP_KEY_COBA }}
           export_default_credentials: true
 
       - name: Build and push Docker image
