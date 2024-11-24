@@ -7,7 +7,7 @@ on:
 
 env:
   GCP_PROJECT: alpine-keep-440111-r4
-  IMAGE_NAME: cicd3
+  IMAGE_NAME: cicd2
 
 jobs:
   build:
@@ -36,12 +36,19 @@ jobs:
           context: .
           push: true
           tags: gcr.io/${{ env.GCP_PROJECT }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ env.GCP_PROJECT }}
+          service_account_key: ${{ secrets.GCP_KEY_COBA }}
+          export_default_credentials: true
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v1
+        with:
+          service: ${{ env.CLOUD_RUN_SERVICE }}
+          image: gcr.io/${{ env.GCP_PROJECT }}/${{ env.IMAGE_NAME }}:${{ env.TAG_VERSION }}
+          region: ${{ env.CLOUD_RUN_REGION }}
+        
       
-       - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy ${{ secrets.SERVICE }} \
-            --image gcr.io/${{ secrets.PROJECT_ID }}/${{ secrets.IMAGE_NAME }}:latest \
-            --region ${{ secrets.REGION }} \
-            --platform managed \
-            --allow-unauthenticated \
-            --service-account=848793158287-compute@developer.gserviceaccount.com
