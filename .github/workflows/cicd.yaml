@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: cicd2
   TAG_VERSION: 1.0
   TAG_LATEST: latest
-  CLOUD_RUN_SERVICE: cicd1
+  CLOUD_RUN_SERVICE: cicd2
   CLOUD_RUN_REGION: asia-southeast2
 
 jobs:
