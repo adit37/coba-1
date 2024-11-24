@@ -10,8 +10,8 @@ env:
   IMAGE_NAME: cicd2
   TAG_VERSION: 1.0
   TAG_LATEST: latest
-  CLOUD_RUN_SERVICE: cicd1
-  CLOUD_RUN_REGION: asia-southeast2 
+  SERVICE: cicd1
+  REGION: asia-southeast2 
 
 jobs:
   build-and-deploy:
@@ -57,11 +57,10 @@ jobs:
 
       # 7. Deploy to Cloud Run
       - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v1
-        with:
-          service: ${{ env.CLOUD_RUN_SERVICE }}
-          image: gcr.io/${{ env.GCP_PROJECT }}/${{ env.IMAGE_NAME }}:${{ env.TAG_VERSION }}
-          region: ${{ env.CLOUD_RUN_REGION }}
-          # Optional: Specify platform and other parameters
-          # platform: managed
-          # allow-unauthenticated: true
+        run: |
+          gcloud run deploy ${{ secrets.SERVICE }} \
+            --image gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.IMAGE_NAME }}:latest \
+            --region ${{ secrets.REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --service-account=1012925828272-compute@developer.gserviceaccount.com
