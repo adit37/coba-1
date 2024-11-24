@@ -58,9 +58,10 @@ jobs:
       # 7. Deploy to Cloud Run
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy ${{ secrets.SERVICE }} \
-            --image gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.IMAGE_NAME }}:latest \
-            --region ${{ secrets.REGION }} \
-            --platform managed \
-            --allow-unauthenticated \
-            --service-account=1012925828272-compute@developer.gserviceaccount.com
+          gcloud run deploy ${{ env.SERVICE }} \
+              --image=gcr.io/${{ env.GCP_PROJECT }}/${{ env.IMAGE_NAME }}:${{ env.TAG_LATEST }}
+              --allow-unauthenticated \
+              --port=9000 \
+              --service-account=1012925828272-compute@developer.gserviceaccount.com \
+              --region=${{ env.REGION }} \
+              --project=${{ env.GCP_PROJECT }}
