@@ -15,6 +15,10 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_KEY_COBA }}
+      
+      - name: Debug JSON File
+        run: |
+          ls -la /home/runner/work/coba-1/coba-1
 
       - name: Checkout repository
         uses: actions/checkout@v3
