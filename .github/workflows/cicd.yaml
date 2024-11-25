@@ -38,10 +38,14 @@ jobs:
       
       - name: Create .env file
         run: |
-          echo PORT=${{ secrets.PORT }} >> .env
-          echo PROJECT_ID=${{ secrets.GCP_PROJECT }} >> .env
-          echo REGION=${{ secrets.REGION }} >> .env
-          echo SECRET_KEY=${{ secrets.GCP_KEY_COBA }} >> .env   
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "PROJECT_ID=${{ secrets.GCP_PROJECT }}" >> .env
+          echo "REGION=${{ secrets.REGION }}" >> .env
+          echo "SECRET_KEY=${{ secrets.GCP_KEY_COBA }}" >> .env
+        env:
+          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+          GCP_REGION: ${{ secrets.GCP_REGION }}
+          GCP_SECRET_KEY: ${{ secrets.GCP_SECRET_KEY }}     
 
       # 5. Build and Push Docker Image
       - name: Build and Push Docker Image
