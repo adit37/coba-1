@@ -11,20 +11,11 @@ jobs:
 
     steps:
 
-      - name: Authenticate with Google Cloud 1
-        run: |
-          echo '${{ secrets.GCP_KEY_COBA }}' > /tmp/key.json
-          gcloud auth activate-service-account --key-file=/tmp/key.json
-          gcloud config set project ${{ secrets.GCP_PROJECT }}
-
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_KEY_COBA }}
-      
-      - name: Debug JSON File
-        run: |
-          ls -la /home/runner/work/coba-1/coba-1
+      - name: Set Up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with: 
+          project_id: ${{ secrets.GCP_PROJECT }}
+          service_account_key: ${{ secrets.GCP_KEY_COBA }}
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -44,6 +35,13 @@ jobs:
           registry: gcr.io
           username: _json_key
           password: ${{ secrets.GCP_KEY_COBA }}
+      
+      - name: Create .env file
+        run: |
+          echo PORT=${{ secrets.PORT }} >> .env
+          echo PROJECT_ID=${{ secrets.GCP_PROJECT }} >> .env
+          echo REGION=${{ secrets.REGION }} >> .env
+          echo SECRET_KEY=${{ secrets.GCP_KEY_COBA }} >> .env   
 
       # 5. Build and Push Docker Image
       - name: Build and Push Docker Image
@@ -55,11 +53,12 @@ jobs:
             gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.IMAGE_NAME }}:${{ secrets.TAG_VERSION }}
             gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.IMAGE_NAME }}:${{ secrets.TAG_LATEST }}
 
-      - name: Set Up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.2.0
-        with: 
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v0.2.1
+        with:
           project_id: ${{ secrets.GCP_PROJECT }}
           service_account_key: ${{ secrets.GCP_KEY_COBA }}
+          export_default_credentials: true
 
       # 7. Deploy to Cloud Run
       - name: Deploy to Cloud Run
