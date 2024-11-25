@@ -4,22 +4,13 @@ on:
   push:
     branches:
       - main
-
-env:
-  GCP_PROJECT: alpine-keep-440111-r4
-  IMAGE_NAME: cicd2
-  TAG_VERSION: 1.0
-  TAG_LATEST: latest
-  SERVICE: cicd2
-  REGION: asia-southeast2
-
   
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    
+
       - name: Checkout repository
         uses: actions/checkout@v3
  
@@ -46,24 +37,24 @@ jobs:
           context: .
           push: true
           tags: |
-            gcr.io/${{ env.GCP_PROJECT }}/${{ env.IMAGE_NAME }}:${{ env.TAG_VERSION }}
-            gcr.io/${{ env.GCP_PROJECT }}/${{ env.IMAGE_NAME }}:${{ env.TAG_LATEST }}
+            gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.IMAGE_NAME }}:${{ secrets.TAG_VERSION }}
+            gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.IMAGE_NAME }}:${{ secrets.TAG_LATEST }}
 
       # 6. Set up Google Cloud SDK
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: ${{ env.GCP_PROJECT }}
+          project_id: ${{ secrets.GCP_PROJECT }}
           service_account_key: ${{ secrets.GCP_KEY_COBA }}
           export_default_credentials: true
 
       # 7. Deploy to Cloud Run
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy ${{ env.SERVICE }} \
-              --image=gcr.io/${{ env.GCP_PROJECT }}/${{ env.IMAGE_NAME }}:${{ env.TAG_LATEST }} \
+          gcloud run deploy ${{ secrets.SERVICE }} \
+              --image=gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.IMAGE_NAME }}:${{ secrets.TAG_LATEST }} \
               --allow-unauthenticated \
               --port=9000 \
               --service-account=1012925828272-compute@developer.gserviceaccount.com \
-              --region=${{ env.REGION }} \
-              --project=${{ env.GCP_PROJECT }}
+              --region=${{ secrets.REGION }} \
+              --project=${{ secrets.GCP_PROJECT }}
