@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: cicd2
   TAG_VERSION: 1.0
   TAG_LATEST: latest
-  SERVICE: cicd1
+  SERVICE: cicd2
   REGION: asia-southeast2
 
   
@@ -22,10 +22,10 @@ jobs:
 
       - name: Authenticate with Google Cloud
         run: |
-        echo "${{ secrets.GCP_KEY_COBA }}" > /tmp/key.json
-        export GOOGLE_APPLICATION_CREDENTIALS="/tmp/key.json"
-        gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-        gcloud config set project ${{ env.GCP_PROJECT }}
+          echo "${{ secrets.GCP_KEY_COBA }}" > /tmp/key.json
+          export GOOGLE_APPLICATION_CREDENTIALS="/tmp/key.json"
+          gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+          gcloud config set project ${{ env.GCP_PROJECT }}
 
       - name: Checkout repository
         uses: actions/checkout@v3
