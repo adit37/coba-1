@@ -11,6 +11,11 @@ jobs:
 
     steps:
 
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_KEY_COBA }}
+
       - name: Checkout repository
         uses: actions/checkout@v3
  
@@ -41,12 +46,11 @@ jobs:
             gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.IMAGE_NAME }}:${{ secrets.TAG_LATEST }}
 
       # 6. Set up Google Cloud SDK
-      - name: Set up Google Cloud SDK
+      - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GCP_PROJECT }}
-          service_account_key: ${{ secrets.GCP_KEY_COBA }}
-          export_default_credentials: true
+          install_components: 'gcloud'
 
       # 7. Deploy to Cloud Run
       - name: Deploy to Cloud Run
