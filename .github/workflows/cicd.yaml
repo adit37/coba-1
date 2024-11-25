@@ -12,7 +12,7 @@ env:
   TAG_LATEST: latest
   SERVICE: cicd1
   REGION: asia-southeast2
-  GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/key.json
+  
   
 jobs:
   build-and-deploy:
