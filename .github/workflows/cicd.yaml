@@ -12,17 +12,19 @@ env:
   TAG_LATEST: latest
   SERVICE: cicd1
   REGION: asia-southeast2
-    GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/key.json
-      run: 
-        echo "${{ secrets.GCP_KEY_COBA }}" > $GOOGLE_APPLICATION_CREDENTIALS
-        gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-        gcloud config set project YOUR_PROJECT_ID
-
+  GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/key.json
+  
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Authenticate with Google Cloud
+          run: |
+            echo "${{ secrets.GCP_KEY_COBA }}" > $GOOGLE_APPLICATION_CREDENTIALS
+            gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+            gcloud config set project YOUR_PROJECT_ID
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
