@@ -12,7 +12,7 @@ env:
   TAG_LATEST: latest
   SERVICE: cicd1
   REGION: asia-southeast2
-  
+
   
 jobs:
   build-and-deploy:
@@ -22,14 +22,17 @@ jobs:
 
       - name: Authenticate with Google Cloud
         run: |
-          echo "${{ secrets.GCP_KEY_COBA }}" > /tmp/key.json
-          export GOOGLE_APPLICATION_CREDENTIALS="/tmp/key.json"
-          echo "${{ secrets.GCP_KEY_COBA }}" > $GOOGLE_APPLICATION_CREDENTIALS
-          gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-          gcloud config set project $GCP_PROJECT
+        echo "${{ secrets.GCP_KEY_COBA }}" > /tmp/key.json
+        export GOOGLE_APPLICATION_CREDENTIALS="/tmp/key.json"
+        gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+        gcloud config set project ${{ env.GCP_PROJECT }}
 
       - name: Checkout repository
         uses: actions/checkout@v3
+      
+      - name: Validate JSON Key
+        run: |
+          jq . /tmp/key.json
 
       # 2. Set up QEMU for multi-architecture builds
       - name: Set up QEMU
