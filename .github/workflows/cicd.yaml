@@ -11,7 +11,7 @@ jobs:
 
     steps:
 
-      - name: Authenticate with Google Cloud
+      - name: Authenticate with Google Cloud 1
         run: |
           echo '${{ secrets.GCP_KEY_COBA }}' > /tmp/key.json
           gcloud auth activate-service-account --key-file=/tmp/key.json
