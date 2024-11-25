@@ -13,7 +13,7 @@ jobs:
 
       - name: Authenticate with Google Cloud
         run: |
-          echo "${{ secrets.GCP_KEY_COBA }}" > /tmp/key.json
+          echo '${{ secrets.GCP_KEY_COBA }}' > /tmp/key.json
           gcloud auth activate-service-account --key-file=/tmp/key.json
           gcloud config set project ${{ secrets.GCP_PROJECT }}
 
