@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: cicd2
   TAG_VERSION: 1.0
   TAG_LATEST: latest
-  SERVICE: cicd2
+  SERVICE: cicd1
   REGION: asia-southeast2 
 
 jobs:
