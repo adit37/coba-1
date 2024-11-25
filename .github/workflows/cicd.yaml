@@ -11,7 +11,12 @@ env:
   TAG_VERSION: 1.0
   TAG_LATEST: latest
   SERVICE: cicd1
-  REGION: asia-southeast2 
+  REGION: asia-southeast2
+    GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/key.json
+      run: |
+        echo "${{ secrets.GCP_KEY_COBA }}" > $GOOGLE_APPLICATION_CREDENTIALS
+        gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+        gcloud config set project YOUR_PROJECT_ID
 
 jobs:
   build-and-deploy:
@@ -59,7 +64,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ env.SERVICE }} \
-              --image=gcr.io/${{ env.GCP_PROJECT }}/${{ env.IMAGE_NAME }}:${{ env.TAG_LATEST }}
+              --image=gcr.io/${{ env.GCP_PROJECT }}/${{ env.IMAGE_NAME }}:${{ env.TAG_LATEST }} \
               --allow-unauthenticated \
               --port=9000 \
               --service-account=1012925828272-compute@developer.gserviceaccount.com \
