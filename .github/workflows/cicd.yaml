@@ -13,7 +13,7 @@ env:
   SERVICE: cicd1
   REGION: asia-southeast2
     GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/key.json
-      run: |
+      run: 
         echo "${{ secrets.GCP_KEY_COBA }}" > $GOOGLE_APPLICATION_CREDENTIALS
         gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
         gcloud config set project YOUR_PROJECT_ID
