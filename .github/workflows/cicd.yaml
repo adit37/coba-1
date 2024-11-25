@@ -19,11 +19,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Authenticate with Google Cloud
-          run: |
-            echo "${{ secrets.GCP_KEY_COBA }}" > $GOOGLE_APPLICATION_CREDENTIALS
-            gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-            gcloud config set project YOUR_PROJECT_ID
+    - name: Authenticate with Google Cloud
+      run:  
+        echo "${{ secrets.GCP_KEY_COBA }}" > $GOOGLE_APPLICATION_CREDENTIALS
+        gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+        gcloud config set project $GCP_PROJECT
 
       - name: Checkout repository
         uses: actions/checkout@v3
