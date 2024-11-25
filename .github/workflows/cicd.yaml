@@ -50,10 +50,10 @@ jobs:
             gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.IMAGE_NAME }}:${{ secrets.TAG_LATEST }}
 
       - name: Set Up Cloud SDK
-          uses: google-github-actions/setup-gcloud@v0.2.0
-          with: 
-              project_id: ${{ secrets.GCP_PROJECT }}
-              service_account_key: ${{ secrets.GCP_KEY_COBA }}
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with: 
+          project_id: ${{ secrets.GCP_PROJECT }}
+          service_account_key: ${{ secrets.GCP_KEY_COBA }}
 
       # 7. Deploy to Cloud Run
       - name: Deploy to Cloud Run
